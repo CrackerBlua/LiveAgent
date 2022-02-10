@@ -277,8 +277,29 @@
                                             document.getElementById("question1").addEventListener("click",func);
                                             
                                             document.getElementById("Subject__c").value = null;
+                                            /*___________________________________________________________________________________________ */
                                             
-                                            
+                                            var divInputEmbedded = document.createElement("div");
+                                            divInputEmbedded.setAttribute("class","inputText embeddedServiceSidebarFormField");
+
+                                            var divUiInput = document.createElement("div");
+                                            divUiInput.setAttribute("class","uiInput uiInput--default uiInput--input");
+
+                                            var inputThirdQuestion = document.createElement("input");
+                                            inputThirdQuestion.setAttribute("class","input");
+                                            inputThirdQuestion.setAttribute("type","checkbox");
+                                            inputThirdQuestion.setAttribute("id","question3");
+                                            inputThirdQuestion.setAttribute("name","question3");
+
+                                            var thirdBoxText = document.createTextNode("Acepto los Términos y Condiciones de Chat Web");
+
+                                            inputThirdQuestion.appendChild(thirdBoxText); 
+                                            divUiInput.appendChild(inputThirdQuestion);                                            
+                                            divInputEmbedded.appendChild(divUiInput);
+
+                                            document.getElementsByClassName("fieldList")[0].appendChild(divInputEmbedded);
+
+                                            /*___________________________________________________________________________________________ */
                                             var inputText3 = document.createElement("div");
                                             inputText3.setAttribute("class","inputText embeddedServiceSidebarFormField");
                                             
