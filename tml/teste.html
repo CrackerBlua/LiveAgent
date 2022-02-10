@@ -291,10 +291,18 @@
                                             inputThirdQuestion.setAttribute("id","question3");
                                             inputThirdQuestion.setAttribute("name","question3");
 
+                                            var thirdBoxLabel = document.createElement("label");
+                                            thirdBoxLabel.setAttribute("class","uiLabel-left form-element__label uiLabel");
+                                            thirdBoxLabel.setAttribute("for","question1");
+
+                                            var spanThirdBox = document.createElement("span");
+
                                             var thirdBoxText = document.createTextNode("Acepto los Términos y Condiciones de Chat Web");
 
-                                            inputThirdQuestion.appendChild(thirdBoxText); 
-                                            divUiInput.appendChild(inputThirdQuestion);                                            
+                                            spanThirdBox.appendChild(thirdBoxText);
+                                            thirdBoxLabel.appendChild(spanThirdBox);
+                                            divUiInput.appendChild(thirdBoxLabel);
+                                            ivUiInput.appendChild(inputThirdQuestion);                                             
                                             divInputEmbedded.appendChild(divUiInput);
 
                                             document.getElementsByClassName("fieldList")[0].appendChild(divInputEmbedded);
