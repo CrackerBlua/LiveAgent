@@ -21,48 +21,345 @@
 		//embedded_svc.settings.disabledMinimizedText = '...'; //(Defaults to Agent Offline)
 
 		//embedded_svc.settings.loadingText = ''; //(Defaults to Loading)
-		//embedded_svc.settings.storageDomain = 'yourdomain.com'; //(Sets the domain for your deployment so that visitors can navigate subdomains during a chat session)
+  
 
-		// Settings for Chat
-		//embedded_svc.settings.directToButtonRouting = function(prechatFormData) {
-			// Dynamically changes the button ID based on what the visitor enters in the pre-chat form.
-			// Returns a valid button ID.
-		//};
-		//embedded_svc.settings.prepopulatedPrechatFields = {}; //Sets the auto-population of pre-chat form fields
-		//embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
-		//embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
-
-		embedded_svc.settings.enabledFeatures = ['LiveAgent'];
-		embedded_svc.settings.entryFeature = 'LiveAgent';
-
-		embedded_svc.init(
-			'https://nissan--stg.my.salesforce.com',
-			'https://stg-nissanlatam.cs217.force.com',
-			gslbBaseURL,
-			'00D8D0000004Yyr',
-			'PER_LiveAgent',
-			{
-				baseLiveAgentContentURL: 'https://c.la5-c1cs-ia4.salesforceliveagent.com/content',
-				deploymentId: '5723n000000Xaw3',
-				buttonId: '5733n000000Xaxl',
-				baseLiveAgentURL: 'https://d.la5-c1cs-ia4.salesforceliveagent.com/chat',
-				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I3n000000XaRLEA0_1785f6369b2',
-				isOfflineSupportEnabled: true
-			}
-			);
-		};
-
-		if (!window.embedded_svc) {
-			var s = document.createElement('script');
-			s.setAttribute('src', 'https://nissan--stg.my.salesforce.com/embeddedservice/5.0/esw.min.js');
-			s.onload = function() {
-				initESW(null);
-			};
-			document.body.appendChild(s);
-		} else {
-			initESW('https://service.force.com');
-		}
-</script>
+    <style type='text/css'>
+        .embeddedServiceHelpButton .helpButton .uiButton {
+        	background-color: #c3002f;
+        	font-family: "Nissan Light","Nissan Regular",Verdana,Arial,sans-serif;
+        }
+        .embeddedServiceHelpButton .helpButton .uiButton:focus {
+        	outline: 1px solid #c3002f;
+        }
+        
+        .embeddedServiceHelpButton .embeddedServiceIcon:before{
+        	font-size : 30px !important;
+        }
+        
+        .embeddedServiceHelpButton .uiButton .helpButtonLabel .message{
+            overflow: initial !important;
+            background-color: #c3002f !important;
+            border-style: hidden !important;
+            color: white !important;
+            font-size : 20px !important;
+        }
+        
+        .sidebarHeader{
+        	font-size: 12px !important;
+        }        
+    </style>
+    
+    <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
+    <script type='text/javascript'>
+        
+        var initESW = function(gslbBaseURL) {
+            console.log("initESW");
+            embedded_svc.settings.displayHelpButton = true; //Ou falso
+            embedded_svc.settings.language = 'es_PE'; //Por exemplo, insira "pt" ou "pt-BR"
+            embedded_svc.settings.extraPrechatInfo = [{
+                "entityFieldMaps": [
+                    {
+                        "doCreate":true,
+                        "doFind":true,
+                        "fieldName":"Email",
+                        "isExactMatch":true
+                    }
+                ],
+                "entityName":"Contact"
+            },];
+            embedded_svc.settings.extraPrechatFormDetails =
+            [
+               {
+                  "label":"Asunto",
+                  "transcriptFields":[
+                     "Subject__c"
+                  ]
+               },
+               {
+                  "label":"Nombre",
+                  "transcriptFields":[
+                     "First_Name__c"
+                  ]
+               },
+               {
+                  "label":"Apellidos",
+                  "transcriptFields":[
+                     "Last_Name__c"
+                  ]
+               },
+               {
+                  "label":"Teléfono",
+                  "transcriptFields":[
+                     "Phone__c"
+                  ]
+               },
+               {
+                  "label":"Código de área",
+                  "transcriptFields":[
+                     "Phone_code__c"
+                  ]
+               },
+               {
+                  "label":"Mail",
+                  "transcriptFields":[
+                     "Email__c"
+                  ]
+               },
+               {
+                  "label":"DNI",
+                  "transcriptFields":[
+                     "CustomerIdentificationNumber__c"
+                  ]
+               },
+            ];
+            
+            
+            embedded_svc.settings.defaultMinimizedText = 'CHAT'; //(Assume como padrÃ£o o Chat com um especialista)
+            embedded_svc.settings.disabledMinimizedText = 'CHAT'; //(Assume como padrÃ£o Agente off-line)
+            embedded_svc.settings.offlineSupportMinimizedText = 'CHAT'; //(Padronizado para Entre em contato conosco)
+            embedded_svc.settings.loadingText = 'cargando';
+            embedded_svc.settings.enabledFeatures = ['LiveAgent'];
+            embedded_svc.settings.entryFeature = 'LiveAgent';
+            //embedded_svc.settings.storageDomain = 'yourdomain.com'; //(Define o domÃ­nio de sua implantaÃ§Ã£o para que seus visitantes possam navegar em subdomÃ­nios durante uma sessÃ£o de chat)          
+            //embedded_svc.settings.fallbackRouting = []; //Uma matriz de IDs de botÃ£o, IDs de usuÃ¡rio ou userId_buttonId
+            // Settings for Chat
+    		// Settings for Chat
+                embedded_svc.settings.directToButtonRouting = function(prechatFormData) {
+                    //Dynamically changes the button ID based on what the visitor enters in the pre-chat form.
+                    console.log(prechatFormData);
+                    for (var dataOrder in prechatFormData) {
+                        if(prechatFormData[dataOrder].name = "Subject__c")
+                        {
+                            if(prechatFormData[dataOrder].value === "Question" || prechatFormData[dataOrder].value === "Problem")
+                            {
+                                return "5733n000000Xaxg";
+                            }
+                        }
+                        console.log(prechatFormData[dataOrder].name);
+                    }
+                    return "5733n000000Xaxl"
+                }
+                embedded_svc.settings.prepopulatedPrechatFields = {
+                    Phone_code__c: "+51"
+                };
+                embedded_svc.settings.fallbackRouting = ["5733n000000Xaxg","5733n000000Xaxl"]; //An array of button IDs, user IDs, or userId_buttonId
+                
+                embedded_svc.settings.enabledFeatures = ['LiveAgent'];
+                embedded_svc.settings.entryFeature = 'LiveAgent';
+                
+                embedded_svc.init(
+                    'https://nissan.my.salesforce.com',
+                    'https://nissanlatam.force.com',
+                    gslbBaseURL,
+                    '00Df4000001TfIJ',
+                    'PER_LiveAgent',
+                    {
+                        baseLiveAgentContentURL: 'https://c.la4-c4-ia2.salesforceliveagent.com/content',
+                        deploymentId: '5723n000000Xaw3',
+                        buttonId: '5733n000000Xaxl',
+                        baseLiveAgentURL: 'https://d.la4-c4-ia2.salesforceliveagent.com/chat',
+                        eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I3n000000XaRLEA0_1785f6369b2',
+                        isOfflineSupportEnabled: true
+                    }
+                );
+        };
+    
+    if (!window.embedded_svc) {
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://nissan.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+        s.onload = function() {
+            initESW(null);
+        };
+        document.body.appendChild(s);
+        
+    } else {
+        initESW('https://service.force.com');
+        
+        var interval;
+        
+        var getButton = function () {
+            interval = setInterval(function(){ 
+                var button = document.getElementsByClassName("helpButtonEnabled");                
+                if(!button[0]){
+                }
+                else
+                {
+                    clearInterval(interval);
+                    
+                    button[0].addEventListener("click",function(){
+                        var interval2;
+                        var getSubmit = function () {
+                            interval2 = setInterval(function(){
+                                var submitButton = document.getElementsByClassName("embeddedServiceSidebarButton");
+                                if(!submitButton[0]){
+                                    //console.log("botÃ£o nÃ£o encontrado");
+                                }
+                                else
+                                {
+                                    submitButton[0].disabled = true;
+                                    clearInterval(interval2);
+                                    
+                                    var interval3;
+                                    
+                                    interval3 = setInterval(function(){
+                                        var form = document.getElementsByClassName("fieldList");
+                                        
+                                        if(!form){
+                                        }
+                                        else{
+                                            clearInterval(interval3);
+                                            
+                                            var inputText2 = document.createElement("div");
+                                            inputText2.setAttribute("class","inputText embeddedServiceSidebarFormField");
+                                            
+                                            var uiInput2 = document.createElement("div");
+                                            uiInput2.setAttribute("class","uiInput uiInput--default uiInput--input");
+                                            
+                                            var label2 = document.createElement("label");
+                                            label2.setAttribute("class","uiLabel-left form-element__label uiLabel");
+                                            label2.setAttribute("for","question2");
+                                            
+                                            var span12 = document.createElement("span");
+                                            
+                                            var text12 = document.createTextNode("Acepto el tratamiento de mis datos para fines de prospección y promoción comercial");
+                                            
+                                            var span22 = document.createElement("span");
+                                            span22.setAttribute("class","required");
+                                            span22.setAttribute("title","Required");
+                                            
+                                            var requiredTag2 = document.createTextNode("*");
+                                            
+                                            var input2 = document.createElement("input");
+                                            input2.setAttribute("class","input");
+                                            input2.setAttribute("type","checkbox");
+                                            input2.setAttribute("id","question2");
+                                            input2.setAttribute("name","question2");
+                                            
+                                            span12.appendChild(text12);
+                                            
+                                            span22.appendChild(requiredTag2);
+                                            
+                                            label2.appendChild(span12);
+                                            //label2.appendChild(span22);
+                                            
+                                            uiInput2.appendChild(input2);
+                                            uiInput2.appendChild(label2);
+                                            
+                                            
+                                            inputText2.appendChild(uiInput2);
+                                            
+                                            document.getElementsByClassName("fieldList")[0].appendChild(inputText2);
+                                            
+                                            var inputText = document.createElement("div");
+                                            inputText.setAttribute("class","inputText embeddedServiceSidebarFormField");
+                                            
+                                            var uiInput = document.createElement("div");
+                                            uiInput.setAttribute("class","uiInput uiInput--default uiInput--input");
+                                            
+                                            var label = document.createElement("label");
+                                            label.setAttribute("class","uiLabel-left form-element__label uiLabel");
+                                            label.setAttribute("for","question1");
+                                            
+                                            var span1 = document.createElement("span");
+                                            
+                                            var text1 = document.createTextNode("He leído y acepto la Política de Privacidad");
+                                            
+                                            var span2 = document.createElement("span");
+                                            span2.setAttribute("style","color: #db6682;");
+                                            span2.setAttribute("title","Required");
+                                            
+                                            var requiredTag = document.createTextNode("*");
+                                            
+                                            var input = document.createElement("input");
+                                            input.setAttribute("class","input");
+                                            input.setAttribute("type","checkbox");
+                                            input.setAttribute("id","question1");
+                                            input.setAttribute("name","question1");
+                                            
+                                            span1.appendChild(text1);
+                                            
+                                            span2.appendChild(requiredTag);
+                                            
+                                            label.appendChild(span1);
+                                            label.appendChild(span2);
+                                            
+                                            uiInput.appendChild(input);
+                                            uiInput.appendChild(label);
+                                            
+                                            
+                                            inputText.appendChild(uiInput);
+                                            
+                                            document.getElementsByClassName("fieldList")[0].appendChild(inputText);
+                                            
+                                            var func = function(){
+                                                document.getElementsByClassName("embeddedServiceSidebarButton")[0].disabled = !document.getElementsByClassName("embeddedServiceSidebarButton")[0].disabled;
+                                            };
+                                            
+                                            document.getElementById("question1").addEventListener("click",func);
+                                            
+                                            document.getElementById("Subject__c").value = null;
+                                            
+                                            
+                                            var inputText3 = document.createElement("div");
+                                            inputText3.setAttribute("class","inputText embeddedServiceSidebarFormField");
+                                            
+                                            var uiInput3 = document.createElement("div");
+                                            uiInput3.setAttribute("class","uiInput uiInput--default uiInput--input");
+                                            
+                                            var link = document.createElement("a");
+                                            link.setAttribute("href","https://www.nissan.pe/politicas-de-privacidad.html");
+                                            link.setAttribute("style","font-size: 10px;margin-left: 6px;");
+                                            
+                                            var linkText = document.createTextNode("Ver más aqui");
+                                            link.appendChild(linkText); 
+                                            uiInput3.appendChild(link);                                            
+                                            inputText3.appendChild(uiInput3);
+                                            
+                                            document.getElementsByClassName("fieldList")[0].appendChild(inputText3);
+                                            
+                                            if(!!document.getElementById("SuppliedEmail"))
+                                            {
+                                                document.getElementsByTagName("embeddedservice-chat-header")[0].getElementsByTagName("h2")[0].innerHTML = '<b>AHORA NO PODEMOS ATENDERTE!</b><p><span style="font-size:10px">Dejanos tu mensaje y nos contactaremos</p></span>';
+                                                /*var parentnode = document.getElementById("Mensagem__c").parentNode;
+                                                var textArea = document.createElement("textArea");
+                                                textArea.setAttribute("style","height:90px;width:98%;border-color:#949494");
+                                                textArea.setAttribute("id","textAreaMensage");
+                                                textArea.setAttribute("maxlength","255");
+                                                parentnode.appendChild(textArea);
+                                                document.getElementById("Mensagem__c").style.display = "none";
+                                                document.getElementById("textAreaMensage").addEventListener('change', function(){
+                                                    document.getElementById("Mensagem__c").value = document.getElementById("textAreaMensage").value;
+                                                });*/
+                                                
+                                                
+                                            }
+                                            else
+                                            {
+                                                document.getElementsByTagName("embeddedservice-chat-header")[0].getElementsByTagName("h2")[0].innerHTML = '<span style="font-size:18px"><b>CHAT EN VIVO</b></span>';
+                                            }
+                                            
+                                            
+                                        }
+                                    },500);
+                                }
+                                
+                            },500);
+                        };
+                        getSubmit();
+                        
+                    });
+                    
+                }
+                
+            }, 500);
+        }
+        
+        getButton();
+        
+    }
+    
+    </script>
+    
 
 </body>
 </html>
