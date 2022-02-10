@@ -1,53 +1,32 @@
 <html>
 	<head></head>
 	<body>
-		<style type='text/css'>
-	.embeddedServiceHelpButton .helpButton .uiButton {
-		background-color: #c3002f;
-		font-family: "Arial", sans-serif;
-	}
-	.embeddedServiceHelpButton .helpButton .uiButton:focus {
-		outline: 1px solid #c3002f;
-	}
-</style>
+	<style type='text/css'>
+		.embeddedServiceHelpButton .helpButton .uiButton {
+			background-color: #c3002f;
+			font-family: "Nissan Light","Nissan Regular",Verdana,Arial,sans-serif;
+		}
+		.embeddedServiceHelpButton .helpButton .uiButton:focus {
+			outline: 1px solid #c3002f;
+		}
 
-<script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
-<script type='text/javascript'>
-	var initESW = function(gslbBaseURL) {
-		embedded_svc.settings.displayHelpButton = true; //Or false
-		embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
+		.embeddedServiceHelpButton .embeddedServiceIcon:before{
+			font-size : 30px !important;
+		}
 
-		//embedded_svc.settings.defaultMinimizedText = '...'; //(Defaults to Chat with an Expert)
-		//embedded_svc.settings.disabledMinimizedText = '...'; //(Defaults to Agent Offline)
+		.embeddedServiceHelpButton .uiButton .helpButtonLabel .message{
+		    overflow: initial !important;
+		    background-color: #c3002f !important;
+		    border-style: hidden !important;
+		    color: white !important;
+		    font-size : 20px !important;
+		}
 
-		//embedded_svc.settings.loadingText = ''; //(Defaults to Loading)
-  
+		.sidebarHeader{
+			font-size: 12px !important;
+		}  
+	</style>
 
-    <style type='text/css'>
-        .embeddedServiceHelpButton .helpButton .uiButton {
-        	background-color: #c3002f;
-        	font-family: "Nissan Light","Nissan Regular",Verdana,Arial,sans-serif;
-        }
-        .embeddedServiceHelpButton .helpButton .uiButton:focus {
-        	outline: 1px solid #c3002f;
-        }
-        
-        .embeddedServiceHelpButton .embeddedServiceIcon:before{
-        	font-size : 30px !important;
-        }
-        
-        .embeddedServiceHelpButton .uiButton .helpButtonLabel .message{
-            overflow: initial !important;
-            background-color: #c3002f !important;
-            border-style: hidden !important;
-            color: white !important;
-            font-size : 20px !important;
-        }
-        
-        .sidebarHeader{
-        	font-size: 12px !important;
-        }        
-    </style>
     
     <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
     <script type='text/javascript'>
