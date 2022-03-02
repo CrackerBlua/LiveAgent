@@ -297,14 +297,16 @@
 
                                             var spanThirdBox = document.createElement("span");
 						
-  					    var spanThirdBoxRequired = document.createElement("span");
+  					                        var spanThirdBoxRequired = document.createElement("span");
                                             spanThirdBoxRequired.setAttribute("style","color: #db6682;");
                                             spanThirdBoxRequired.setAttribute("title","Required");
+
+                                            var requiredTagThirdQuestion = document.createTextNode("*");
 
                                             var thirdBoxText = document.createTextNode("Acepto los Términos y Condiciones de Chat Web");
 
                                             spanThirdBox.appendChild(thirdBoxText);
-                                            spanThirdBoxRequired.appendChild(requiredTag)
+                                            spanThirdBoxRequired.appendChild(requiredTagThirdQuestion)
                                             thirdBoxLabel.appendChild(spanThirdBox);
                                             thirdBoxLabel.appendChild(spanThirdBoxRequired)
                                             divUiInput.appendChild(inputThirdQuestion);                                             
